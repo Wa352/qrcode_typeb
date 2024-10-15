@@ -1,6 +1,5 @@
 Flask
-pyzbar
-Pillow
+cv2
 openpyxl
-uvicorn
-zbar
+opencv-contrib-python
+
