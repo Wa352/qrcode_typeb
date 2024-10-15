@@ -1,5 +1,4 @@
 Flask
 cv2
 openpyxl
-opencv-contrib-python
-
+opencv-python
