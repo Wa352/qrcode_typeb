@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, make_response
-from pyzbar.pyzbar import decode
-from PIL import Image
+import cv2
 import os
 import json
 import openpyxl as op
@@ -29,11 +28,16 @@ def cell_find(path, info):  # 項目のセルを見つけるプログラム
     return hight_counter, flag, score  # 行カウンターとフラグを返す
 
 def read_qr_code(image_path):
-    image = Image.open(image_path)
-    decoded_objects = decode(image)
+    # 画像を読み込む
+    img = cv2.imread(image_path)
+    # QRコード検出器を初期化
+    detector = cv2.QRCodeDetector()
+    # QRコードを検出し、デコード
+    data, bbox, _ = detector.detectAndDecode(img)
+    if data:
+        os.remove(image_path)
+        return data
     os.remove(image_path)
-    if decoded_objects:
-        return decoded_objects[0].data.decode('utf-8')
     return None
 
 UPLOAD_FOLDER = './uploads'
